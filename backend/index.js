@@ -6,11 +6,13 @@ const dotenv=require("dotenv")
 dotenv.config()
 const app = express();
 const cors = require("cors");
-app.use(cors(
-    {
-        origin:"http://localhost:5173"
-    }
-))
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://kaufhaus.vercel.app"
+  ],
+  credentials: true
+}))
 const connectDB=require('./config/db')
 connectDB()
 app.use(express.json())
