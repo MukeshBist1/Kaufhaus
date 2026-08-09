@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ProductCard = ({ product }) => {
   return (
-    <div className='relative border border-gray-300 rounded-2xl h-80 w-70 p-5'>
+    <div className='relative overflow-hidden border border-gray-300 rounded-2xl h-80 w-70 p-5'>
         <img className=' rounded-lg' src={product.imageUrl} alt={product.name} />
         <div className='absolute bottom-0'>
           <p className='text-lg font-bold'>{product.name}</p>

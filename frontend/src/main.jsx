@@ -6,20 +6,19 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import { Provider } from 'react-redux'
 import { store } from './redux/store.js'
 
-// Prefer same-origin /api/* so Vercel can proxy to the backend (avoids CORS).
-// Only rewrite to an absolute backend URL when VITE_API_URL is set.
-const API_BASE_URL = import.meta.env.VITE_API_URL
-  ? String(import.meta.env.VITE_API_URL).replace(/\/$/, '')
-  : ''
+// Use the local Vite proxy during development, but switch to the deployed backend
+// in production when no explicit VITE_API_URL is provided.
+const API_BASE_URL = import.meta.env.DEV
+  ? (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
+  : (import.meta.env.VITE_API_URL || 'https://kaufhaus-backend.onrender.com').replace(/\/$/, '')
 
-if (API_BASE_URL) {
-  const originalFetch = window.fetch.bind(window)
-  window.fetch = (input, init) => {
-    if (typeof input === 'string' && input.startsWith('/api/')) {
-      return originalFetch(`${API_BASE_URL}${input}`, init)
-    }
-    return originalFetch(input, init)
+const originalFetch = window.fetch.bind(window)
+window.fetch = (input, init) => {
+  if (typeof input === 'string' && input.startsWith('/api/')) {
+    const target = API_BASE_URL ? `${API_BASE_URL}${input}` : input
+    return originalFetch(target, init)
   }
+  return originalFetch(input, init)
 }
 
 createRoot(document.getElementById('root')).render(

@@ -8,16 +8,25 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
+      setError('');
+
       try {
         const res = await fetch(`/api/products/${id}`);
+        if (!res.ok) {
+          throw new Error(`Request failed with status ${res.status}`);
+        }
         const data = await res.json();
         setProduct(data);
       } catch (error) {
         console.error(error);
+        setError('Unable to load this product right now. Please try again.');
+        setProduct(null);
       } finally {
         setLoading(false);
       }
@@ -39,6 +48,7 @@ const ProductDetail = () => {
   };
 
   if (loading) return <div style={{ textAlign: 'center', margin: '100px', color: '#f97316' }}>Loading Product...</div>;
+  if (error) return <div style={{ textAlign: 'center', margin: '100px', color: '#ef4444' }}>{error}</div>;
   if (!product) return <div style={{ textAlign: 'center', margin: '100px', color: '#ef4444' }}>Product Not Found</div>;
 
   return (
