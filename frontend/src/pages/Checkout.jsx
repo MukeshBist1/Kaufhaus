@@ -92,7 +92,7 @@ const Checkout = () => {
 
           <div className="checkout-summary">
             <h4>Total to Pay: ₹{totalPrice.toFixed(2)}</h4>
-            <p className='text-sm text-gray-300'>Since Razorpay is not available, this uses a fake payment flow to place the order directly.</p>
+            <p className='text-sm text-gray-300'>This uses a fake payment flow to place the order directly.</p>
             <button
               type="submit"
               disabled={loading}

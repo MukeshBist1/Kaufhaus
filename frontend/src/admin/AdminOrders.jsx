@@ -47,7 +47,7 @@ const AdminOrders = () => {
                 <td style={tdStyle}>{order._id.substring(0, 8)}...</td>
                 <td style={tdStyle}>{order.user?.name || 'Deleted User'}</td>
                 <td style={tdStyle}>₹{order.totalAmount.toFixed(2)}</td>
-                <td style={tdStyle}>{new Date(order.createdAt).toLocaleDateString()}</td>
+                <td style={tdStyle}>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'Unknown'}</td>
                 <td style={tdStyle}>
                   <select 
                     value={order.status} 
