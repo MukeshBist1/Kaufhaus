@@ -14,6 +14,7 @@ import Checkout from './pages/Checkout'
 import { AuthContext } from './context/AuthContext.jsx'
 import Profile from './pages/Profile.jsx'
 import Shop from './pages/Shop.jsx'
+import OrderSuccess from './pages/OrderSuccess.jsx'
 import AdminDashboard from './admin/AdminDashboard';
 import AddProduct from './admin/AddProduct';
 import AdminProducts from './admin/AdminProducts';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={user ? <Cart /> : <Navigate to="/login" replace />} />
         <Route path="/checkout" element={user ? <Checkout /> : <Navigate to="/login" replace />} />
+        <Route path="/ordersuccess" element={<OrderSuccess />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/add-product" element={<AddProduct />} />
         <Route path="/admin/products" element={<AdminProducts />} />
