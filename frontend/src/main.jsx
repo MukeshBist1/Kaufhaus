@@ -6,19 +6,12 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import { Provider } from 'react-redux'
 import { store } from './redux/store.js'
 
-// Use the local Vite proxy during development, but switch to the deployed backend
-// in production when no explicit VITE_API_URL is provided.
-const API_BASE_URL = import.meta.env.DEV
-  ? (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
-  : (import.meta.env.VITE_API_URL || 'https://kaufhaus-backend.onrender.com').replace(/\/$/, '')
+// Simple helper for API requests.
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://kaufhaus-backend.onrender.com'
 
-const originalFetch = window.fetch.bind(window)
-window.fetch = (input, init) => {
-  if (typeof input === 'string' && input.startsWith('/api/')) {
-    const target = API_BASE_URL ? `${API_BASE_URL}${input}` : input
-    return originalFetch(target, init)
-  }
-  return originalFetch(input, init)
+const apiFetch = (path, init) => {
+  const url = path.startsWith('/api/') ? `${API_BASE_URL}${path}` : path
+  return fetch(url, init)
 }
 
 createRoot(document.getElementById('root')).render(
